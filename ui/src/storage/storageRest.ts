@@ -22,11 +22,12 @@ export class StorageRest {
   async getStoredItem(
     pipelineId: number,
     storageItemId: number,
-  ): Promise<StorageItem> {
+  ): Promise<StorageItem | null> {
     const response = await this.http.get(
       `/${pipelineId}?id=eq.${storageItemId}`,
     );
-    return (response.data as StorageItem[])[0];
+    const responseData = response.data as StorageItem[];
+    return responseData.length === 0 ? null : responseData[0];
   }
 
   createUrlForItem(pipelineId: number, itemId: number): string {

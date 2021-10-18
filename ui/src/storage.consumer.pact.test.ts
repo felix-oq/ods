@@ -140,10 +140,10 @@ pactWith(options, provider => {
         });
       });
 
-      it('throws an error', async () => {
-        await expect(
-          restService.getStoredItem(pipelineId, storageItemId),
-        ).rejects.toThrow(Error);
+      it('returns null', async () => {
+        const item = await restService.getStoredItem(pipelineId, storageItemId);
+
+        expect(item).toBeNull();
       });
     });
 
