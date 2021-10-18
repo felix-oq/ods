@@ -40,8 +40,8 @@ const storageStructureRepository = new PostgresStorageStructureRepository(
   postgresClient,
 );
 
-// Stores the ids of those pipelines that have a corresponding table in the database
-const presentPipelineIds: string[] = [];
+// Stores the identifiers of tables that are present in the database
+const presentTables: string[] = [];
 
 describe('Pact Provider Verification', () => {
   beforeAll(async () => {
@@ -50,7 +50,7 @@ describe('Pact Provider Verification', () => {
       CONNECTION_BACKOFF,
     );
 
-    await queryPresentPipelineIds();
+    await queryPresentTables();
   });
 
   it('validates the expectations of the UI', async () => {
@@ -80,14 +80,15 @@ describe('Pact Provider Verification', () => {
   });
 });
 
-async function queryPresentPipelineIds(): Promise<void> {
+// Initializes the presentTables array with the identifiers of all tables that are present in the database
+async function queryPresentTables(): Promise<void> {
   await postgresClient.transaction(async () => {
     const result = await postgresClient.executeQuery(
       `SELECT table_name FROM information_schema.tables WHERE table_schema = '${POSTGRES_SCHEMA}'`,
     );
     for (const row of result.rows) {
       Object.values(row).forEach((value) => {
-        presentPipelineIds.push(value as string);
+        presentTables.push(value as string);
       });
     }
   });
@@ -105,29 +106,33 @@ async function setupEmptyPipelineTable(): Promise<void> {
 async function setupFilledPipelineTable(): Promise<void> {
   await clearState();
   await createPipelineTable(1);
-  await addSampleItemsToPipelineTable(1);
+  await addSampleItemToPipelineTable(1); // Adds an item with item id 1
+  await addSampleItemToPipelineTable(1); // Adds an item with item id 2
 }
 
 async function clearState(): Promise<void> {
-  for (const pipelineId of presentPipelineIds) {
-    await storageStructureRepository.delete(pipelineId.toString());
+  for (const tableIdentifier of presentTables) {
+    await storageStructureRepository.delete(tableIdentifier);
   }
-  presentPipelineIds.splice(0, presentPipelineIds.length);
+  presentTables.splice(0, presentTables.length);
 }
 
 async function createPipelineTable(pipelineId: number): Promise<void> {
-  await storageStructureRepository.create(pipelineId.toString());
-  presentPipelineIds.push(pipelineId.toString());
+  const pipelineTableIdentifier = pipelineId.toString();
+  await storageStructureRepository.create(pipelineTableIdentifier);
+  presentTables.push(pipelineTableIdentifier);
 }
 
-async function addSampleItemsToPipelineTable(
-  pipelineId: number,
-): Promise<void> {
-  const sampleItem: InsertStorageContent = {
-    pipelineId: 42,
-    timestamp: new Date(2020, 2, 29),
-    data: { just: 'some', sample: 'data' },
-  };
-  await storageContentRepository.saveContent(pipelineId.toString(), sampleItem);
-  await storageContentRepository.saveContent(pipelineId.toString(), sampleItem);
+const sampleItem: InsertStorageContent = {
+  pipelineId: 42,
+  timestamp: new Date(2020, 2, 29),
+  data: { just: 'some', sample: 'data' },
+};
+
+async function addSampleItemToPipelineTable(pipelineId: number): Promise<void> {
+  const pipelineTableIdentifier = pipelineId.toString();
+  await storageContentRepository.saveContent(
+    pipelineTableIdentifier,
+    sampleItem,
+  );
 }
