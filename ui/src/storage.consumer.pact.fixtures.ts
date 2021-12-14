@@ -20,7 +20,7 @@ export function getStoredItemsRequestTitle(pipelineId: number): string {
 
 export function getStoredItemsRequest(pipelineId: number): RequestOptions {
   return {
-    method: 'GET',
+    method: 'POST',
     path: `/${pipelineId}`,
     query: 'select=id,timestamp,pipelineId',
     headers: {

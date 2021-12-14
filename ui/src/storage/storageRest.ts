@@ -13,7 +13,7 @@ export class StorageRest {
   }
 
   async getStoredItems(pipelineId: number): Promise<StorageItemMetaData[]> {
-    const response = await this.http.get(
+    const response = await this.http.post(
       `/${pipelineId}?select=id,timestamp,pipelineId`,
     );
     return response.data as StorageItemMetaData[];
