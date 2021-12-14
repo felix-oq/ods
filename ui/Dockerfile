@@ -50,9 +50,6 @@ RUN npm run lint-ci
 # build vue.js production bundle to ./dist
 RUN npm run build
 
-# run unit test
-RUN npm run test
-
 #--------------------------------------------------------#
 # Third stage: serve static html and js files with nginx #
 #--------------------------------------------------------#

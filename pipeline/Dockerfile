@@ -34,9 +34,6 @@ RUN npm run lint-ci
 # build
 RUN npm run transpile
 
-# run unit test
-RUN npm run test
-
 #--------------------------------------------#
 # Third stage: image to run node application #
 #--------------------------------------------#
