@@ -26,9 +26,9 @@ export class PipelineExecutionEndpoint {
       req.body.data,
     );
     if ('error' in result) {
-      res.status(400).json(result);
+      res.status(404).json(result);
       return;
     }
-    res.status(200).json(result);
+    res.status(402).json(result);
   };
 }
