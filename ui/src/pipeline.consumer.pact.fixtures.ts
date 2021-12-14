@@ -33,7 +33,7 @@ export const examplePipelineWithSchema: Pipeline = {
 export const getAllRequestTitle = 'a request for getting all pipelines';
 export const getAllRequest: RequestOptions = {
   method: 'GET',
-  path: '/configs/',
+  path: '/configs/all/',
 };
 
 export const getAllEmptyResponse: ResponseOptions = {
