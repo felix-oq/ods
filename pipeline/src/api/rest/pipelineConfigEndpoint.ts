@@ -92,15 +92,15 @@ export class PipelineConfigEndpoint {
   ): Promise<void> => {
     const configId = Number.parseInt(req.params.id, 10);
     if (Number.isNaN(configId)) {
-      res.status(400).send('Path parameter id is missing or is incorrect');
+      res.status(400).end('Path parameter id is missing or is incorrect');
       return;
     }
     const config = await this.pipelineConfigManager.get(configId);
     if (config === undefined) {
-      res.status(404).send('Config not found');
+      res.status(404).end('Config not found');
       return;
     }
-    res.status(200).json(config);
+    res.status(200).end(JSON.stringify(config));
   };
 
   getAll = async (
