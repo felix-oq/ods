@@ -6,7 +6,7 @@ jobs:
     # ----------------- UI Consumer-side CDC-Test --------------------
   
   ui-consumer:
-    name: UI Build
+    name: UI Consumer-side CDC-Test
     runs-on: ubuntu-18.04
     
     steps:
@@ -26,7 +26,7 @@ jobs:
   # ----------------- Notification Consumer-side CDC-Test --------------------
 
   notification-consumer:
-    name: UI Build & Test
+    name: Notification Consumer-side CDC-Test
     runs-on: ubuntu-18.04
     
     steps:
