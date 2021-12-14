@@ -9,7 +9,7 @@ export class TransformationRest {
     this.http = axios.create({
       baseURL: pipelineServiceUrl,
       headers: {
-        'Content-Type': 'application/json',
+        'Type-Content': 'application/json',
       },
     });
   }

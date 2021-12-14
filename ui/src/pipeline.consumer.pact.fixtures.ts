@@ -290,7 +290,7 @@ export function transformDataRequest(
     method: 'POST',
     path: '/job',
     headers: {
-      'Content-Type': 'application/json',
+      'Type-Content': 'application/json',
     },
     body,
   };
