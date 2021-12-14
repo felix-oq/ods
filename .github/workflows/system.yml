@@ -1,0 +1,235 @@
+name: System Test
+
+on: push
+jobs:
+
+  # ----------------- ADAPTER SERVICE --------------------
+
+  adapter-build:
+    name: Adapter Build & Test
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build
+        run: |
+          docker-compose -f docker-compose.yml build adapter
+
+      - name: Save Docker image as artifact
+        run: |
+          IMAGE_ID=$(sed -n 's/^DOCKER_REGISTRY=//p' .env)/adapter
+          docker save $IMAGE_ID > adapter.tar
+
+      - name: Upload Docker image as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: adapter-artifact
+          path: adapter.tar
+
+
+  # ----------------- SCHEDULER SERVICE --------------------
+
+  scheduler-build:
+    name: Scheduler Build & Test
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build
+        run: |
+          docker-compose -f docker-compose.yml build scheduler
+
+      - name: Save Docker image as artifact
+        run: |
+          IMAGE_ID=$(sed -n 's/^DOCKER_REGISTRY=//p' .env)/scheduler
+          docker save $IMAGE_ID > scheduler.tar
+
+      - name: Upload Docker image as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: scheduler-artifact
+          path: scheduler.tar
+
+
+  # ----------------- STORAGE SERVICE --------------------
+
+  storage-build:
+    name: Storage Build
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build
+        run: |
+          docker-compose -f docker-compose.yml build storage
+          docker-compose -f docker-compose.yml build storage-db-liquibase
+          docker-compose -f docker-compose.yml build storage-mq
+
+      - name: Save Docker image as artifact
+        run: |
+          IMAGE_ID_STORAGE=$(sed -n 's/^DOCKER_REGISTRY=//p' .env)/storage
+          IMAGE_ID_LIQUIBASE=$(sed -n 's/^DOCKER_REGISTRY=//p' .env)/storage-db-liquibase
+          IMAGE_ID_STORAGEMQ=$(sed -n 's/^DOCKER_REGISTRY=//p' .env)/storage-mq
+
+          docker save $IMAGE_ID_STORAGE > storage_postgrest.tar
+          docker save $IMAGE_ID_LIQUIBASE > storage_liquibase.tar
+          docker save $IMAGE_ID_STORAGEMQ > storage_mq.tar
+
+      - name: Upload Storage Docker image as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: storage-artifact
+          path: storage_postgrest.tar
+
+      - name: Upload Liquibase Docker image as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: liquibase-artifact
+          path: storage_liquibase.tar
+
+      - name: Upload Storage-MQ Docker image as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: storagemq-artifact
+          path: storage_mq.tar
+
+
+  # ----------------- PIPELINE SERVICE --------------------
+
+  pipeline-build:
+    name: Pipeline Build
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build
+        run: |
+          docker-compose -f docker-compose.yml build pipeline
+
+      - name: Save Docker image as artifact
+        run: |
+          IMAGE_ID=$(sed -n 's/^DOCKER_REGISTRY=//p' .env)/pipeline
+          docker save $IMAGE_ID > pipeline.tar
+
+      - name: Upload Docker image as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: pipeline-artifact
+          path: pipeline.tar
+
+
+  # ----------------- NOTIFICATION SERVICE --------------------
+
+  notification-build:
+    name: Notification Build
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build
+        run: |
+          docker-compose -f docker-compose.yml build notification
+
+      - name: Save Docker image as artifact
+        run: |
+          IMAGE_ID=$(sed -n 's/^DOCKER_REGISTRY=//p' .env)/notification
+          docker save $IMAGE_ID > notification.tar
+
+      - name: Upload Docker image as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: notification-artifact
+          path: notification.tar
+
+  # ----------------- UI SERVICE --------------------
+
+  ui-build:
+    name: UI Build
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build
+        run: |
+          docker-compose -f docker-compose.yml build ui
+
+      - name: Save Docker image as artifact
+        run: |
+          IMAGE_ID=$(sed -n 's/^DOCKER_REGISTRY=//p' .env)/ui
+          docker save $IMAGE_ID > ui.tar
+
+      - name: Upload Docker image as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: ui-artifact
+          path: ui.tar
+
+  # ----------------- SYSTEMTEST --------------------
+  systemtest:
+    name: Systemtest
+    runs-on: ubuntu-18.04
+    needs: [adapter-build, notification-build, scheduler-build, storage-build, pipeline-build, ui-build]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16'
+      - name: Download adapter artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: adapter-artifact
+      - name: Download scheduler artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: scheduler-artifact
+      - name: Download storage artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: storage-artifact
+      - name: Download liquibase artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: liquibase-artifact
+      - name: Download storagemq artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: storagemq-artifact
+      - name: Download pipeline artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: pipeline-artifact
+      - name: Download notification artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: notification-artifact
+
+      - name: Load images from artifacts
+        run: |
+          docker load -i ./scheduler-artifact/scheduler.tar
+          docker load -i ./storage-artifact/storage_postgrest.tar
+          docker load -i ./liquibase-artifact/storage_liquibase.tar
+          docker load -i ./storagemq-artifact/storage_mq.tar
+          docker load -i ./pipeline-artifact/pipeline.tar
+          docker load -i ./notification-artifact/notification.tar
+          docker load -i ./adapter-artifact/adapter.tar
+
+      - name: Install dependencies
+        working-directory: ./system-test
+        run: npm ci
+      - name: Run test
+        working-directory: ./system-test
+        run: npm run test
+      - name: Upload logs
+        if: success() || failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: SystemTestLogs
+          path: system-test/logs/*

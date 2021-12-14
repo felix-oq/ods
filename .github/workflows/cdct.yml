@@ -1,0 +1,103 @@
+name: Consumer-Driven Contract Test
+
+on: push
+jobs:
+
+    # ----------------- UI Consumer-side CDC-Test --------------------
+  
+  ui-consumer:
+    name: UI Build
+    runs-on: ubuntu-18.04
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Consumer-side CDC-Test
+        run: |
+          bash ./ui/cdct-consumer.sh
+      
+      - name: Upload Contract files as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: contracts
+          path: ./pacts/*.json
+          if-no-files-found: error
+
+  # ----------------- Notification Consumer-side CDC-Test --------------------
+
+  nofitication-consumer:
+    name: UI Build & Test
+    runs-on: ubuntu-18.04
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Consumer-side CDC-Test
+        run: |
+          bash ./notification/cdct-consumer.sh
+
+      - name: Upload contract files as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: contracts
+          path: ./pacts/*.json
+          if-no-files-found: error
+
+  # ----------------- Storage Consumer-side CDC-Test --------------------
+
+  storage-consumer:
+    name: Storage Consumer-side CDC-Test
+    runs-on: ubuntu-18.04
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Consumer-side CDC-Test
+        run: |
+          bash ./storage/storage-mq/cdct-consumer.sh
+
+      - name: Upload contract files as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: contracts
+          path: ./pacts/*.json
+          if-no-files-found: error
+
+  # ----------------- Pipeline Provider-side CDC-Test -----------------
+
+  pipeline-provider:
+    name: Pipeline Provider-side CDC-Test
+    runs-on: ubuntu-18.04
+    needs: [ui-consumer, notification-consumer, storage-consumer]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download contract files from artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: contracts
+          path: ./pacts
+
+      - name: Build and Run
+        run: |
+          bash ./pipeline/cdct-provider.sh
+
+
+  # ----------------- Storage Provider-side CDC-Test -----------------
+  
+  storage-provider:
+    name: Storage Provider-side CDC-Test
+    runs-on: ubuntu-18.04
+    needs: [ui-consumer]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download contract files from artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: contracts
+          path: ./pacts
+
+      - name: Build and Run
+        run: |
+          bash ./storage/storage-mq/cdct-provider.sh
