@@ -25,7 +25,7 @@ jobs:
 
   # ----------------- Notification Consumer-side CDC-Test --------------------
 
-  nofitication-consumer:
+  notification-consumer:
     name: UI Build & Test
     runs-on: ubuntu-18.04
     
@@ -84,7 +84,7 @@ jobs:
 
 
   # ----------------- Storage Provider-side CDC-Test -----------------
-  
+
   storage-provider:
     name: Storage Provider-side CDC-Test
     runs-on: ubuntu-18.04
