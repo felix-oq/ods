@@ -13,7 +13,6 @@ export class PipelineConfigEndpoint {
     app.get('/configs', asyncHandler(this.getAll));
     app.get('/configs/:id', asyncHandler(this.getOne));
     app.post('/configs', asyncHandler(this.create));
-    app.put('/configs/:id', asyncHandler(this.update));
     app.delete('/configs/:id', asyncHandler(this.delete));
     app.delete('/configs', asyncHandler(this.deleteAll));
   };
@@ -43,33 +42,6 @@ export class PipelineConfigEndpoint {
   ): Promise<void> => {
     await this.pipelineConfigManager.deleteAll();
     res.status(204).send();
-  };
-
-  update = async (
-    req: express.Request,
-    res: express.Response,
-  ): Promise<void> => {
-    const configId = Number.parseInt(req.params.id, 10);
-    if (Number.isNaN(configId)) {
-      res.status(400).send('Path parameter id is missing or is incorrect');
-      return;
-    }
-    const validator = new PipelineConfigDTOValidator();
-    if (!validator.validate(req.body)) {
-      res.status(400).json({ errors: validator.getErrors() });
-      return;
-    }
-    const config = req.body;
-
-    const updatedPipeline = await this.pipelineConfigManager.update(
-      configId,
-      config,
-    );
-    if (updatedPipeline === undefined) {
-      res.status(404).send(`Could not find config with id ${configId}`);
-      return;
-    }
-    res.status(200).json(updatedPipeline);
   };
 
   create = async (
