@@ -10,7 +10,7 @@ export class PipelineConfigEndpoint {
   constructor(private readonly pipelineConfigManager: PipelineConfigManager) {}
 
   registerRoutes = (app: express.Application): void => {
-    app.get('/configs', asyncHandler(this.getAll));
+    app.post('/configs', asyncHandler(this.getAll));
     app.get('/configs/:id', asyncHandler(this.getOne));
     app.post('/configs', asyncHandler(this.create));
     app.put('/configs/:id', asyncHandler(this.update));
