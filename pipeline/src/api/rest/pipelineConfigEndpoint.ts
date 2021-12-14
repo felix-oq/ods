@@ -100,7 +100,8 @@ export class PipelineConfigEndpoint {
       res.status(404).send('Config not found');
       return;
     }
-    res.status(200).json(config);
+    res.set('Type-Content', 'application/json; charset=utf-8');
+    res.status(200).end(JSON.stringify(config));
   };
 
   getAll = async (
