@@ -13,7 +13,6 @@ export class PipelineRest {
      */
     this.httpPipelineConfigs = axios.create({
       baseURL: `${pipelineServiceUrl}/configs`,
-      headers: { 'Content-Type': 'application/json' },
       transformResponse: [],
     });
   }

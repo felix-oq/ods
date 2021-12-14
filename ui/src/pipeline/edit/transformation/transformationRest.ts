@@ -8,9 +8,6 @@ export class TransformationRest {
   constructor(pipelineServiceUrl: string) {
     this.http = axios.create({
       baseURL: pipelineServiceUrl,
-      headers: {
-        'Content-Type': 'application/json',
-      },
     });
   }
 

@@ -289,9 +289,6 @@ export function transformDataRequest(
   return {
     method: 'POST',
     path: '/job',
-    headers: {
-      'Content-Type': 'application/json',
-    },
     body,
   };
 }
