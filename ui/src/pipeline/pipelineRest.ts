@@ -25,7 +25,12 @@ export class PipelineRest {
 
   async getPipelineById(id: number): Promise<Pipeline> {
     const response = await this.httpPipelineConfigs.get(`/${id}`);
-    return JSON.parse(response.data) as Pipeline;
+    const result = JSON.parse(response.data) as Pipeline;
+    // Shrink the set of accepted values for datasourceId:
+    if (result.datasourceId < 0 || result.datasourceId > 100) {
+      throw new Error('invalid datasourceId');
+    }
+    return result;
   }
 
   async getPipelinesByDatasourceId(datasourceId: number): Promise<Pipeline[]> {
