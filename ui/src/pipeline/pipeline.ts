@@ -8,7 +8,7 @@ export default interface Pipeline {
 
 export interface PipelineDTO {
   id: number;
-  datasourceId: number;
+  datasourceId: number | string;
   metadata: PipelineMetaData;
   transformation: TransformationConfig;
   schema?: Record<string, unknown>;
