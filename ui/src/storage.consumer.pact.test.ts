@@ -1,5 +1,6 @@
 import path from 'path';
 
+import { eachLike } from '@pact-foundation/pact/src/dsl/matchers';
 import { JestPactOptions, pactWith } from 'jest-pact';
 
 import {
@@ -124,6 +125,39 @@ pactWith(options, provider => {
         const item = await restService.getStoredItem(pipelineId, storageItemId);
 
         expect(item).toStrictEqual(exampleStorageItem);
+      });
+    });
+
+    describe('when the requested pipeline exists and has the stored item', () => {
+      const pipelineId = 1;
+      const storageItemId = 'some_id';
+
+      beforeEach(async () => {
+        await provider.addInteraction({
+          state: `pipeline with id ${pipelineId} and a stored item with id ${storageItemId} exists`,
+          uponReceiving: getStoredItemRequestTitle(pipelineId, storageItemId),
+          withRequest: getStoredItemRequest(pipelineId, storageItemId),
+          willRespondWith: {
+            // TODO any success status code is actually acceptable (i.e. 2xx)
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+            },
+            body: eachLike({
+              ...exampleStorageItem,
+              id: storageItemId,
+            }),
+          },
+        });
+      });
+
+      it('returns the requested stored item', async () => {
+        const item = await restService.getStoredItem(pipelineId, storageItemId);
+
+        expect(item).toStrictEqual({
+          ...exampleStorageItem,
+          id: storageItemId,
+        });
       });
     });
 
