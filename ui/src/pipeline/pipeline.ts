@@ -1,6 +1,6 @@
 export default interface Pipeline {
   id: number;
-  datasourceId: number;
+  dataId: number;
   metadata: PipelineMetaData;
   transformation: TransformationConfig;
   schema?: Record<string, unknown>;
@@ -17,7 +17,7 @@ export interface PipelineDTO {
 export function toPipelineDTO(pipeline: Pipeline): PipelineDTO {
   return {
     id: pipeline.id,
-    datasourceId: pipeline.datasourceId,
+    datasourceId: pipeline.dataId,
     metadata: pipeline.metadata,
     transformation: pipeline.transformation,
     schema: pipeline.schema,

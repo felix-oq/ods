@@ -75,9 +75,7 @@ export default class PipelineSchemaEdit extends Vue {
   }
 
   private async onGenerate(): Promise<void> {
-    const data = await DatasourceRest.getDatasourceData(
-      this.pipeline.datasourceId,
-    );
+    const data = await DatasourceRest.getDatasourceData(this.pipeline.dataId);
     const request: TransformationRequest = {
       data: data,
       func: this.pipeline.transformation.func,

@@ -13,7 +13,7 @@ export const exampleDatasourceId = 2;
 
 export const examplePipelineWithoutSchema: Pipeline = {
   id: examplePipelineId,
-  datasourceId: exampleDatasourceId,
+  dataId: exampleDatasourceId,
   metadata: {
     author: 'some author',
     description: 'some description',

@@ -6,7 +6,7 @@
           <span v-if="isEditMode">Update Pipeline {{ dialogPipeline.id }}</span>
           <span v-else
             >Create new Pipeline for Datasource
-            {{ dialogPipeline.datasourceId }}</span
+            {{ dialogPipeline.dataId }}</span
           >
         </v-toolbar-title>
       </v-toolbar>
@@ -24,7 +24,7 @@
                 :rules="[required]"
               />
               <v-text-field
-                v-model.number="dialogPipeline.datasourceId"
+                v-model.number="dialogPipeline.dataId"
                 label="Referenced Datasource Id"
                 :rules="[required]"
                 :readonly="isDatasourcePreselected"
@@ -46,7 +46,7 @@
           <v-stepper-content step="2">
             <pipeline-transformation-config
               v-model="dialogPipeline.transformation"
-              :datasource-id="dialogPipeline.datasourceId"
+              :datasource-id="dialogPipeline.dataId"
               @validityChanged="
                 validStep2 = isSchemaAlive ? $event : $event + 1
               "
@@ -168,7 +168,7 @@ export default class PipelineEdit extends Vue {
 
   private dialogPipeline: Pipeline = {
     id: -1,
-    datasourceId: -1,
+    dataId: -1,
     transformation: { func: "data.test = 'abc';\nreturn data;" },
     metadata: {
       author: '',
@@ -191,7 +191,7 @@ export default class PipelineEdit extends Vue {
       const datasourceId = this.$route.params.datasourceId;
       if (datasourceId !== undefined) {
         this.isDatasourcePreselected = true;
-        this.dialogPipeline.datasourceId = Number.parseInt(datasourceId, 10);
+        this.dialogPipeline.dataId = Number.parseInt(datasourceId, 10);
       }
     }
   }
