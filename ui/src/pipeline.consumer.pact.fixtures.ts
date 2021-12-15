@@ -46,7 +46,7 @@ export const examplePipelineDtoWithoutSchema: PipelineDTO = {
 
 export const examplePipelineDtoWithSchema: PipelineDTO = {
   ...examplePipelineDtoWithoutSchema,
-  schema: {},
+  scheme: {},
 };
 
 export const getAllRequestTitle = 'a request for getting all pipelines';
