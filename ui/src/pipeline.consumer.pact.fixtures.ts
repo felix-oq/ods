@@ -297,8 +297,7 @@ export function transformDataRequest(
 }
 
 export const transformDataSuccessResponse: ResponseOptions = {
-  // TODO any status code in the range of 200 to 400 is actually acceptable
-  status: 200,
+  status: 402,
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
   },
@@ -306,8 +305,7 @@ export const transformDataSuccessResponse: ResponseOptions = {
 };
 
 export const transformDataInvalidSyntaxResponse: ResponseOptions = {
-  // TODO any status code in the range of 200 to 400 is actually acceptable
-  status: 400,
+  status: 404,
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
   },
@@ -326,8 +324,7 @@ export const transformDataInvalidSyntaxResponse: ResponseOptions = {
 };
 
 export const transformDataErrorThrownResponse: ResponseOptions = {
-  // TODO any status code in the range of 200 to 400 is actually acceptable
-  status: 400,
+  status: 404,
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
   },

@@ -16,7 +16,7 @@ export class TransformationRest {
 
   async transformData(request: TransformationRequest): Promise<JobResult> {
     const response = await this.http.post('/job', request, {
-      validateStatus: status => status >= 200 && status <= 400,
+      validateStatus: status => status > 400 && status < 500,
     });
 
     return response.data as JobResult;
