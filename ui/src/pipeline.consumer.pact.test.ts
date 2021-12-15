@@ -1,5 +1,6 @@
 import path from 'path';
 
+import { like } from '@pact-foundation/pact/src/dsl/matchers';
 import { JestPactOptions, pactWith } from 'jest-pact';
 
 import {
@@ -136,6 +137,38 @@ pactWith(options, provider => {
           const pipeline = await restService.getPipelineById(id);
 
           expect(pipeline).toStrictEqual(examplePipelineWithoutSchema);
+        });
+      });
+
+      describe('when the requested pipeline exists and has no schema', () => {
+        const id = 'some_id';
+
+        beforeEach(async () => {
+          await provider.addInteraction({
+            state: `pipeline with id ${id} exists and has no schema`,
+            uponReceiving: getByIdRequestTitle(id),
+            withRequest: getByIdRequest(id),
+            willRespondWith: {
+              // TODO any success status code is actually acceptable (i.e. 2xx)
+              status: 200,
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+              },
+              body: like({
+                ...examplePipelineWithoutSchema,
+                id,
+              }),
+            },
+          });
+        });
+
+        it('returns the requested pipeline', async () => {
+          const pipeline = await restService.getPipelineById(id);
+
+          expect(pipeline).toStrictEqual({
+            ...examplePipelineWithoutSchema,
+            id,
+          });
         });
       });
 
