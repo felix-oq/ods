@@ -23,6 +23,7 @@ export const examplePipelineWithoutSchema: Pipeline = {
   transformation: {
     func: 'some function',
   },
+  description: 'some description',
 };
 
 export const examplePipelineWithSchema: Pipeline = {

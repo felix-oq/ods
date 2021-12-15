@@ -4,6 +4,7 @@ export default interface Pipeline {
   metadata: PipelineMetaData;
   transformation: TransformationConfig;
   schema?: Record<string, unknown>;
+  description: string;
 }
 
 export interface PipelineDTO {
