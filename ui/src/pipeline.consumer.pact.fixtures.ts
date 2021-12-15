@@ -32,7 +32,6 @@ export const examplePipelineWithSchema: Pipeline = {
 
 export const examplePipelineDtoWithoutSchema: PipelineDTO = {
   id: examplePipelineId,
-  datasourceId: exampleDatasourceId,
   metadata: {
     author: 'some author',
     description: 'some description',
