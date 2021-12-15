@@ -23,7 +23,7 @@ export class PipelineRest {
     return JSON.parse(response.data) as Pipeline[];
   }
 
-  async getPipelineById(id: number): Promise<Pipeline> {
+  async getPipelineById(id: number | string): Promise<Pipeline> {
     const response = await this.httpPipelineConfigs.get(`/${id}`);
     return JSON.parse(response.data) as Pipeline;
   }

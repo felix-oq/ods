@@ -58,11 +58,11 @@ export function getAllSuccessResponse(withSchema: boolean): ResponseOptions {
   };
 }
 
-export function getByIdRequestTitle(id: number): string {
+export function getByIdRequestTitle(id: number | string): string {
   return `a request for getting the pipeline with id ${id}`;
 }
 
-export function getByIdRequest(id: number): RequestOptions {
+export function getByIdRequest(id: number | string): RequestOptions {
   return {
     method: 'GET',
     path: `/configs/${id}`,
