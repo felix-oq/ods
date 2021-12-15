@@ -49,14 +49,14 @@ export const getStoredItemsEmptySuccessResponse: ResponseOptions = {
 
 export function getStoredItemRequestTitle(
   pipelineId: number,
-  storageItemId: number,
+  storageItemId: number | string,
 ): string {
   return `a request for getting the stored item with id ${storageItemId} of the pipeline with id ${pipelineId}`;
 }
 
 export function getStoredItemRequest(
   pipelineId: number,
-  storageItemId: number,
+  storageItemId: number | string,
 ): RequestOptions {
   return {
     method: 'GET',

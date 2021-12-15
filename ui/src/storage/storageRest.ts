@@ -21,7 +21,7 @@ export class StorageRest {
 
   async getStoredItem(
     pipelineId: number,
-    storageItemId: number,
+    storageItemId: number | string,
   ): Promise<StorageItem | undefined> {
     const response = await this.http.get(
       `/${pipelineId}?id=eq.${storageItemId}`,
