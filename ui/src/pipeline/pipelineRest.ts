@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-import Pipeline, { toPipelineDTO } from './pipeline';
+import Pipeline, { PipelineDTO, toPipelineDTO } from './pipeline';
 
 export class PipelineRest {
   private readonly httpPipelineConfigs: AxiosInstance;
@@ -35,10 +35,10 @@ export class PipelineRest {
     return JSON.parse(response.data) as Pipeline[];
   }
 
-  async createPipeline(pipeline: Pipeline): Promise<Pipeline> {
+  async createPipeline(pipeline: PipelineDTO): Promise<Pipeline> {
     const response = await this.httpPipelineConfigs.post(
       '/',
-      JSON.stringify(toPipelineDTO(pipeline)),
+      JSON.stringify(pipeline),
     );
     return JSON.parse(response.data) as Pipeline;
   }

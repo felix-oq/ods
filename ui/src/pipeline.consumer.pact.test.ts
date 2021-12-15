@@ -293,6 +293,35 @@ pactWith(options, provider => {
         });
       });
 
+      describe('that has no schema', () => {
+        const pipeline = examplePipelineWithoutSchema;
+
+        beforeEach(async () => {
+          await provider.addInteraction({
+            state: 'any state',
+            uponReceiving: `${createRequestTitle(false)} (datasourceId string)`,
+            withRequest: createRequest({
+              ...examplePipelineDtoWithoutSchema,
+              datasourceId: 'some_id',
+            }),
+            willRespondWith: createSuccessResponse(pipeline),
+          });
+        });
+
+        it('returns the created pipeline', async () => {
+          const createdPipeline = await restService.createPipeline({
+            ...examplePipelineDtoWithoutSchema,
+            datasourceId: 'some_id',
+          });
+
+          const expectedPipeline = {
+            ...pipeline,
+            id: createdPipeline.id,
+          };
+          expect(createdPipeline).toStrictEqual(expectedPipeline);
+        });
+      });
+
       describe('that has a schema', () => {
         const pipeline = examplePipelineWithSchema;
 
