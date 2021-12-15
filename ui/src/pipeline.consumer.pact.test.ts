@@ -13,6 +13,8 @@ import {
   exampleDatasourceId,
   exampleErrorThrownJobResult,
   exampleInvalidSyntaxJobResult,
+  examplePipelineDtoWithSchema,
+  examplePipelineDtoWithoutSchema,
   examplePipelineId,
   examplePipelineWithSchema,
   examplePipelineWithoutSchema,
@@ -275,7 +277,7 @@ pactWith(options, provider => {
           await provider.addInteraction({
             state: 'any state',
             uponReceiving: createRequestTitle(false),
-            withRequest: createRequest(pipeline),
+            withRequest: createRequest(examplePipelineDtoWithoutSchema),
             willRespondWith: createSuccessResponse(pipeline),
           });
         });
@@ -298,7 +300,7 @@ pactWith(options, provider => {
           await provider.addInteraction({
             state: 'any state',
             uponReceiving: createRequestTitle(true),
-            withRequest: createRequest(pipeline),
+            withRequest: createRequest(examplePipelineDtoWithSchema),
             willRespondWith: createSuccessResponse(pipeline),
           });
         });
@@ -323,7 +325,7 @@ pactWith(options, provider => {
           await provider.addInteraction({
             state: `pipeline with id ${pipeline.id} exists`,
             uponReceiving: updateRequestTitle(pipeline.id, false),
-            withRequest: updateRequest(pipeline),
+            withRequest: updateRequest(examplePipelineDtoWithoutSchema),
             willRespondWith: updateSuccessResponse(false),
           });
         });
@@ -340,7 +342,7 @@ pactWith(options, provider => {
           await provider.addInteraction({
             state: `pipeline with id ${pipeline.id} exists`,
             uponReceiving: updateRequestTitle(pipeline.id, true),
-            withRequest: updateRequest(pipeline),
+            withRequest: updateRequest(examplePipelineDtoWithSchema),
             willRespondWith: updateSuccessResponse(true),
           });
         });
@@ -359,7 +361,7 @@ pactWith(options, provider => {
           await provider.addInteraction({
             state: `pipeline with id ${pipeline.id} does not exist`,
             uponReceiving: updateRequestTitle(pipeline.id, false),
-            withRequest: updateRequest(pipeline),
+            withRequest: updateRequest(examplePipelineDtoWithoutSchema),
             willRespondWith: notFoundResponse,
           });
         });
@@ -381,7 +383,10 @@ pactWith(options, provider => {
           await provider.addInteraction({
             state: 'any state',
             uponReceiving: updateRequestTitle(pipeline.id, false),
-            withRequest: updateRequest(pipeline),
+            withRequest: updateRequest({
+              ...examplePipelineDtoWithoutSchema,
+              id: NaN,
+            }),
             willRespondWith: badRequestResponse,
           });
         });

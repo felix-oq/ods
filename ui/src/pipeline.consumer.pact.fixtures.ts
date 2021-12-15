@@ -5,7 +5,7 @@ import {
   JobResult,
   TransformationRequest,
 } from './pipeline/edit/transformation/transformation';
-import Pipeline, { HealthStatus } from './pipeline/pipeline';
+import Pipeline, { HealthStatus, PipelineDTO } from './pipeline/pipeline';
 
 export const examplePipelineId = 1;
 
@@ -27,6 +27,25 @@ export const examplePipelineWithoutSchema: Pipeline = {
 
 export const examplePipelineWithSchema: Pipeline = {
   ...examplePipelineWithoutSchema,
+  schema: {},
+};
+
+export const examplePipelineDtoWithoutSchema: PipelineDTO = {
+  id: examplePipelineId,
+  datasourceId: exampleDatasourceId,
+  metadata: {
+    author: 'some author',
+    description: 'some description',
+    displayName: 'some display name',
+    license: 'some license',
+  },
+  transformation: {
+    func: 'some function',
+  },
+};
+
+export const examplePipelineDtoWithSchema: PipelineDTO = {
+  ...examplePipelineDtoWithoutSchema,
   schema: {},
 };
 
@@ -124,7 +143,7 @@ export function createRequestTitle(withSchema: boolean): string {
   } schema`;
 }
 
-export function createRequest(pipeline: Pipeline): RequestOptions {
+export function createRequest(pipeline: PipelineDTO): RequestOptions {
   return {
     method: 'POST',
     path: '/configs/',
@@ -152,7 +171,7 @@ export function updateRequestTitle(id: number, withSchema: boolean): string {
   } its schema`;
 }
 
-export function updateRequest(pipeline: Pipeline): RequestOptions {
+export function updateRequest(pipeline: PipelineDTO): RequestOptions {
   return {
     method: 'PUT',
     path: `/configs/${pipeline.id}`,
