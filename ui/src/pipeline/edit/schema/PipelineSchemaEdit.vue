@@ -54,8 +54,8 @@ export default class PipelineSchemaEdit extends Vue {
   private pipeline!: Pipeline;
 
   mounted(): void {
-    if (this.pipeline.schema != null || this.pipeline.schema !== undefined) {
-      this.schemaAsText = JSON.stringify(this.pipeline.schema);
+    if (this.pipeline.scheme != null || this.pipeline.scheme !== undefined) {
+      this.schemaAsText = JSON.stringify(this.pipeline.scheme);
     }
   }
 
@@ -85,11 +85,11 @@ export default class PipelineSchemaEdit extends Vue {
     const result: JobResult = await new TransformationRest(
       PIPELINE_SERVICE_URL,
     ).transformData(request);
-    this.pipeline.schema = await SchemaSuggestionREST.getSchema(
+    this.pipeline.scheme = await SchemaSuggestionREST.getSchema(
       JSON.stringify(result.data),
       this.currentSliderValue,
     );
-    this.schemaAsText = JSON.stringify(this.pipeline.schema);
+    this.schemaAsText = JSON.stringify(this.pipeline.scheme);
   }
 }
 </script>

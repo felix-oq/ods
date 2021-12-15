@@ -27,7 +27,7 @@ export const examplePipelineWithoutSchema: Pipeline = {
 
 export const examplePipelineWithSchema: Pipeline = {
   ...examplePipelineWithoutSchema,
-  schema: {},
+  scheme: {},
 };
 
 export const examplePipelineDtoWithoutSchema: PipelineDTO = {

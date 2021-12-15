@@ -176,7 +176,7 @@ export default class PipelineEdit extends Vue {
       description: '',
       displayName: '',
     },
-    schema: {},
+    scheme: {},
   };
 
   private required = requiredRule;
