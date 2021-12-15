@@ -3,7 +3,7 @@ export default interface Pipeline {
   datasourceId: number;
   metadata: PipelineMetaData;
   transformation: TransformationConfig;
-  schema?: Record<string, unknown>;
+  schema?: Record<string, string>;
 }
 
 export interface PipelineDTO {
