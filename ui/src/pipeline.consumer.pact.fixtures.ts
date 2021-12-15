@@ -34,6 +34,7 @@ export const getAllRequestTitle = 'a request for getting all pipelines';
 export const getAllRequest: RequestOptions = {
   method: 'GET',
   path: '/configs/',
+  query: `limit=50`,
 };
 
 export const getAllEmptyResponse: ResponseOptions = {

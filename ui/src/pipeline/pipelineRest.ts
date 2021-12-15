@@ -19,7 +19,7 @@ export class PipelineRest {
   }
 
   async getAllPipelines(): Promise<Pipeline[]> {
-    const response = await this.httpPipelineConfigs.get('/');
+    const response = await this.httpPipelineConfigs.get('?limit=50');
     return JSON.parse(response.data) as Pipeline[];
   }
 
