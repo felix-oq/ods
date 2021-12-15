@@ -24,14 +24,14 @@ export class StorageRest {
     storageItemId: number,
   ): Promise<StorageItem | undefined> {
     const response = await this.http.get(
-      `/${pipelineId}?id=eq.${storageItemId}`,
+      `/${pipelineId}?nr=eq.${storageItemId}`,
     );
     // Returns undefined in case the array is empty
     return (response.data as StorageItem[])[0];
   }
 
   createUrlForItem(pipelineId: number, itemId: number): string {
-    return `${this.storageServiceUrl}/${pipelineId}?id=eq.${itemId}`;
+    return `${this.storageServiceUrl}/${pipelineId}?nr=eq.${itemId}`;
   }
 
   createUrlForLatestItem(pipelineId: number): string {

@@ -61,7 +61,7 @@ export function getStoredItemRequest(
   return {
     method: 'GET',
     path: `/${pipelineId}`,
-    query: `id=eq.${storageItemId}`,
+    query: `nr=eq.${storageItemId}`,
     headers: {
       'Content-Type': 'application/json',
     },
