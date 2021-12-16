@@ -33,7 +33,7 @@ export interface PipelineConfigDTO {
 export interface MetadataDTO {
   author: string;
   displayName: string;
-  license: string;
+  lcs: string;
   description: string;
 }
 
@@ -91,10 +91,10 @@ export class PipelineConfigDTOValidator {
         this.errors.push("'metadata.displayName' property must be a string");
       }
 
-      if (!validators.hasProperty(pipelineConfig.metadata, 'license')) {
-        this.errors.push("'metadata.license' property is missing");
-      } else if (!validators.isString(pipelineConfig.metadata.license)) {
-        this.errors.push("'metadata.license' property must be a string");
+      if (!validators.hasProperty(pipelineConfig.metadata, 'lcs')) {
+        this.errors.push("'metadata.lcs' property is missing");
+      } else if (!validators.isString(pipelineConfig.metadata.lcs)) {
+        this.errors.push("'metadata.lcs' property must be a string");
       }
 
       if (!validators.hasProperty(pipelineConfig.metadata, 'description')) {

@@ -95,7 +95,7 @@ function pipelineConfigDTO(): PipelineConfigDTO {
     metadata: {
       author: 'author',
       displayName: 'Pipeline Test',
-      license: 'Test License',
+      lcs: 'Test License',
       description: 'A test pipeline.',
     },
     schema: {},
