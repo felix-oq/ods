@@ -100,6 +100,12 @@ export class PipelineConfigEndpoint {
       res.status(404).send('Config not found');
       return;
     }
+    if (
+      typeof config.schema === 'object' &&
+      config.schema.special !== undefined
+    ) {
+      config.schema = 'special';
+    }
     res.status(200).json(config);
   };
 
@@ -124,6 +130,14 @@ export class PipelineConfigEndpoint {
     const configs = await this.pipelineConfigManager.getByDatasourceId(
       datasourceId,
     );
+    configs.forEach((config) => {
+      if (
+        typeof config.schema === 'object' &&
+        config.schema.special !== undefined
+      ) {
+        config.schema = 'special';
+      }
+    });
     res.status(200).json(configs);
   };
 
