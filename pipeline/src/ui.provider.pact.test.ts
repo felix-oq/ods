@@ -48,6 +48,7 @@ jest.mock('./pipeline-config/pipelineConfigManager', () => {
                 ...config,
                 metadata: {
                   ...config.metadata,
+                  auth: config.metadata.author,
                   creationTimestamp: new Date(2022, 1),
                 },
                 id: ++nextPipelineConfigId,
@@ -221,7 +222,7 @@ function addSamplePipelineConfig(
     id: ++nextPipelineConfigId,
     datasourceId: datasourceId,
     metadata: {
-      author: 'some author',
+      auth: 'some author',
       description: 'some description',
       displayName: 'some display name',
       license: 'some license',

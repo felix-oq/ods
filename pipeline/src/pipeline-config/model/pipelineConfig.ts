@@ -13,7 +13,7 @@ export interface TransformationConfig {
 }
 
 export interface Metadata {
-  author: string;
+  auth: string;
   displayName: string;
   license: string;
   description: string;

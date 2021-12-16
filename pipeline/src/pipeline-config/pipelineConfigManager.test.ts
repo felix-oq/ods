@@ -76,7 +76,7 @@ function generateConfig(): PipelineConfig {
       func: 'return data;',
     },
     metadata: {
-      author: 'author',
+      auth: 'author',
       displayName: 'Pipeline Test',
       license: 'Test License',
       description: 'A test pipeline.',
