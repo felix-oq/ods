@@ -48,6 +48,7 @@ jest.mock('./pipeline-config/pipelineConfigManager', () => {
                 ...config,
                 metadata: {
                   ...config.metadata,
+                  license: '',
                   creationTimestamp: new Date(2022, 1),
                 },
                 id: ++nextPipelineConfigId,

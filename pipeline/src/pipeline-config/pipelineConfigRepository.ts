@@ -66,7 +66,7 @@ export async function create(
     config.transformation.func,
     config.metadata.author,
     config.metadata.displayName,
-    config.metadata.license,
+    '',
     config.metadata.description,
     new Date(),
     config.schema,
@@ -114,7 +114,7 @@ export async function update(
     config.transformation.func,
     config.metadata.author,
     config.metadata.displayName,
-    config.metadata.license,
+    '',
     config.metadata.description,
     config.schema,
   ];
