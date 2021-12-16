@@ -82,7 +82,6 @@ function generateConfig(): PipelineConfig {
       description: 'A test pipeline.',
       creationTimestamp: new Date(),
     },
-    schema: {},
   };
 }
 

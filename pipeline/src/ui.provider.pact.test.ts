@@ -138,16 +138,10 @@ describe('Pact Provider Verification', () => {
         'no pipelines exist': setupEmptyState,
         'some pipelines without schemas exist':
           setupSomePipelineConfigsWithoutSchemas,
-        'some pipelines with schemas exist':
-          setupSomePipelineConfigsWithSchemas,
         'pipeline with id 1 exists': setupSomePipelineConfigsWithoutSchemas,
         'pipeline with id 1 exists and has no schema':
           setupSomePipelineConfigsWithoutSchemas,
-        'pipeline with id 1 exists and has a schema':
-          setupSomePipelineConfigsWithSchemas,
         'pipeline with id 1 does not exist': setupEmptyState,
-        'pipelines with datasource id 2 exist and have schemas':
-          setupSomePipelineConfigsWithSchemas,
         'pipelines with datasource id 2 exist and have no schemas':
           setupSomePipelineConfigsWithoutSchemas,
         'pipelines with datasource id 2 do not exist': setupEmptyState,
@@ -176,18 +170,14 @@ async function setupEmptyState(): Promise<void> {
 }
 
 async function setupSomePipelineConfigsWithoutSchemas(): Promise<void> {
-  await setupSomePipelineConfigs(false);
+  await setupSomePipelineConfigs();
 }
 
-async function setupSomePipelineConfigsWithSchemas(): Promise<void> {
-  await setupSomePipelineConfigs(true);
-}
-
-async function setupSomePipelineConfigs(withSchemas: boolean): Promise<void> {
+async function setupSomePipelineConfigs(): Promise<void> {
   clearState();
-  addSamplePipelineConfig(2, withSchemas);
-  addSamplePipelineConfig(3, withSchemas);
-  addSamplePipelineConfig(2, withSchemas);
+  addSamplePipelineConfig(2);
+  addSamplePipelineConfig(3);
+  addSamplePipelineConfig(2);
 
   return Promise.resolve();
 }
@@ -213,10 +203,7 @@ function clearPipelineConfigs(): void {
   pipelineConfigs.splice(0, pipelineConfigs.length);
 }
 
-function addSamplePipelineConfig(
-  datasourceId: number,
-  withSchema: boolean,
-): void {
+function addSamplePipelineConfig(datasourceId: number): void {
   const pipelineConfig: PipelineConfig = {
     id: ++nextPipelineConfigId,
     datasourceId: datasourceId,
@@ -231,9 +218,6 @@ function addSamplePipelineConfig(
       func: 'some function',
     },
   };
-  if (withSchema) {
-    pipelineConfig.schema = {};
-  }
   pipelineConfigs.push(pipelineConfig);
 }
 

@@ -5,7 +5,6 @@ export interface PipelineConfig {
   datasourceId: number;
   transformation: TransformationConfig;
   metadata: Metadata;
-  schema?: Record<string, unknown>; // Fix @typescript-eslint/ban-types for object type
 }
 
 export interface TransformationConfig {
