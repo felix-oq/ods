@@ -51,6 +51,7 @@ jest.mock('./pipeline-config/pipelineConfigManager', () => {
                   creationTimestamp: new Date(2022, 1),
                 },
                 id: ++nextPipelineConfigId,
+                schema: config.scheme,
               };
               pipelineConfigs.push(result);
               return Promise.resolve(result);
@@ -70,6 +71,7 @@ jest.mock('./pipeline-config/pipelineConfigManager', () => {
               return Promise.resolve(undefined);
             }
             Object.assign(configToUpdate, config);
+            configToUpdate.schema = config.scheme;
             return Promise.resolve(configToUpdate);
           },
         ),

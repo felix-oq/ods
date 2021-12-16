@@ -69,7 +69,7 @@ export async function create(
     config.metadata.license,
     config.metadata.description,
     new Date(),
-    config.schema,
+    config.scheme,
   ];
   const { rows } = await client.query(INSERT_CONFIG_STATEMENT, values);
   return toPipelineConfig(rows[0]);
@@ -116,7 +116,7 @@ export async function update(
     config.metadata.displayName,
     config.metadata.license,
     config.metadata.description,
-    config.schema,
+    config.scheme,
   ];
   const result = await client.query(UPDATE_CONFIG_STATEMENT, values);
   const content = toPipelineConfigs(result);
