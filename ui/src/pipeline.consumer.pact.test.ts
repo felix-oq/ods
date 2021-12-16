@@ -1,5 +1,6 @@
 import path from 'path';
 
+import { like } from '@pact-foundation/pact/src/dsl/matchers';
 import { JestPactOptions, pactWith } from 'jest-pact';
 
 import {
@@ -313,6 +314,42 @@ pactWith(options, provider => {
             id: createdPipeline.id,
           };
           expect(createdPipeline).toStrictEqual(expectedPipeline);
+        });
+      });
+
+      describe('with special schema', () => {
+        const pipeline = {
+          ...examplePipelineWithSchema,
+          schema: { special: 'schema' },
+        };
+
+        beforeEach(async () => {
+          await provider.addInteraction({
+            state: 'any state',
+            uponReceiving: `${createRequestTitle(true)} (special)`,
+            withRequest: {
+              method: 'POST',
+              path: '/configs/',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: { ...pipeline, schema: 'special' },
+            },
+            willRespondWith: {
+              status: 201,
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+              },
+              body: like({
+                ...pipeline,
+                schema: 'special',
+              }),
+            },
+          });
+        });
+
+        it('succeeds', async () => {
+          await restService.createPipeline(pipeline);
         });
       });
     });
