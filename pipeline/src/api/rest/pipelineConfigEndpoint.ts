@@ -117,6 +117,10 @@ export class PipelineConfigEndpoint {
     }
     // DatasourceId parameter given -> check on NaN
     const datasourceId = Number.parseInt(datasourceIdParameter, 10);
+    if (datasourceId < 0 || datasourceId > 100) {
+      res.status(400).send('Query parameter datasourceId out of range');
+      return;
+    }
     if (Number.isNaN(datasourceId)) {
       res.status(400).send('Invalid query parameter datasourceId');
       return;
