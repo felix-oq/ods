@@ -148,7 +148,6 @@ function toPipelineConfig(dbResult: DatabasePipeline): PipelineConfig {
       func: dbResult.func,
     },
     metadata: {
-      author: dbResult.author,
       displayName: dbResult.displayName,
       license: dbResult.license,
       description: dbResult.description,

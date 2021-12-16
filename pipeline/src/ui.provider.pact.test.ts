@@ -221,7 +221,6 @@ function addSamplePipelineConfig(
     id: ++nextPipelineConfigId,
     datasourceId: datasourceId,
     metadata: {
-      author: 'some author',
       description: 'some description',
       displayName: 'some display name',
       license: 'some license',
