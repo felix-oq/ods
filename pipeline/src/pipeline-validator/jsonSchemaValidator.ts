@@ -20,8 +20,8 @@ export default class JsonSchemaValidator implements Validator {
     };
 
     const ajv = new Ajv({ strict: false });
-    if (config.schema !== undefined && config.schema != null) {
-      validate = ajv.compile(config.schema);
+    if (config.scheme !== undefined && config.scheme != null) {
+      validate = ajv.compile(config.scheme);
       valid = validate(data);
 
       const result = {
@@ -29,7 +29,7 @@ export default class JsonSchemaValidator implements Validator {
         healthStatus: valid
           ? transformedData.healthStatus
           : HealthStatus.WARNING,
-        schema: config.schema,
+        schema: config.scheme,
       };
 
       return result;

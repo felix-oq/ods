@@ -143,7 +143,7 @@ function toPipelineConfig(dbResult: DatabasePipeline): PipelineConfig {
   return {
     id: +dbResult.id,
     datasourceId: +dbResult.datasourceId,
-    schema: dbResult.schema,
+    scheme: dbResult.schema,
     transformation: {
       func: dbResult.func,
     },

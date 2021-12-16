@@ -129,7 +129,7 @@ export class PipelineConfigManager {
               config.id,
               config.metadata.displayName,
               result.data,
-              config.schema,
+              config.scheme,
             ),
         );
       } else {

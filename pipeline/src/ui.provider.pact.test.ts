@@ -50,6 +50,7 @@ jest.mock('./pipeline-config/pipelineConfigManager', () => {
                   ...config.metadata,
                   creationTimestamp: new Date(2022, 1),
                 },
+                scheme: config.schema,
                 id: ++nextPipelineConfigId,
               };
               pipelineConfigs.push(result);
@@ -70,6 +71,7 @@ jest.mock('./pipeline-config/pipelineConfigManager', () => {
               return Promise.resolve(undefined);
             }
             Object.assign(configToUpdate, config);
+            configToUpdate.scheme = config.schema;
             return Promise.resolve(configToUpdate);
           },
         ),
@@ -232,7 +234,7 @@ function addSamplePipelineConfig(
     },
   };
   if (withSchema) {
-    pipelineConfig.schema = {};
+    pipelineConfig.scheme = {};
   }
   pipelineConfigs.push(pipelineConfig);
 }
