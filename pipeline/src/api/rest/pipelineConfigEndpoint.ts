@@ -82,6 +82,9 @@ export class PipelineConfigEndpoint {
       return;
     }
     const config = req.body;
+    if (config.metadata.description.length > 100) {
+      res.status(400).send('The description is too long');
+    }
     const savedConfig = await this.pipelineConfigManager.create(config);
     res.status(201).location(`/configs/${savedConfig.id}`).json(savedConfig);
   };
