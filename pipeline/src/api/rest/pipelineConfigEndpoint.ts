@@ -29,6 +29,10 @@ export class PipelineConfigEndpoint {
       res.status(400).send('Path parameter id is missing or is incorrect');
       return;
     }
+    if (configId < 0 || configId > 100) {
+      res.status(400).send('Path parameter id is out of range');
+      return;
+    }
     const deletedPipeline = await this.pipelineConfigManager.delete(configId);
     if (deletedPipeline === undefined) {
       res.status(404).send(`Could not find config with id ${configId}`);
