@@ -50,6 +50,7 @@ jest.mock('./pipeline-config/pipelineConfigManager', () => {
                   ...config.metadata,
                   creationTimestamp: new Date(2022, 1),
                 },
+                schema: undefined,
                 id: ++nextPipelineConfigId,
               };
               pipelineConfigs.push(result);

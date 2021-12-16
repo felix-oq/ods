@@ -98,7 +98,6 @@ function pipelineConfigDTO(): PipelineConfigDTO {
       license: 'Test License',
       description: 'A test pipeline.',
     },
-    schema: {},
   };
 }
 

@@ -27,7 +27,6 @@ export interface PipelineConfigDTO {
   datasourceId: number;
   transformation: TransformationConfig;
   metadata: MetadataDTO;
-  schema?: Record<string, unknown>; // Fix @typescript-eslint/ban-types for object type
 }
 
 export interface MetadataDTO {
