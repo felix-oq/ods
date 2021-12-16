@@ -27,6 +27,7 @@ export interface PipelineConfigDTO {
   datasourceId: number;
   transformation: TransformationConfig;
   metadata: MetadataDTO;
+  mode: string;
   schema?: Record<string, unknown>; // Fix @typescript-eslint/ban-types for object type
 }
 
@@ -57,6 +58,12 @@ export class PipelineConfigDTOValidator {
       this.errors.push("'datasourceId' property is missing");
     } else if (!validators.isNumber(pipelineConfig.datasourceId)) {
       this.errors.push("'datasourceId' property must be a number");
+    }
+
+    if (!validators.hasProperty(pipelineConfig, 'mode')) {
+      this.errors.push("'mode' property is missing");
+    } else if (!validators.isString(pipelineConfig.mode)) {
+      this.errors.push("'mode' property must be a string");
     }
 
     if (!validators.hasProperty(pipelineConfig, 'transformation')) {
