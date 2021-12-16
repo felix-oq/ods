@@ -11,7 +11,7 @@ export interface PipelineDTO {
   datasourceId: number;
   metadata: PipelineMetaData;
   transformation: TransformationConfig;
-  schema?: Record<string, unknown>;
+  schema?: Record<string, unknown> | string;
 }
 
 export function toPipelineDTO(pipeline: Pipeline): PipelineDTO {
@@ -20,7 +20,11 @@ export function toPipelineDTO(pipeline: Pipeline): PipelineDTO {
     datasourceId: pipeline.datasourceId,
     metadata: pipeline.metadata,
     transformation: pipeline.transformation,
-    schema: pipeline.schema,
+    schema:
+      typeof pipeline.schema === 'object' &&
+      pipeline.schema.special !== undefined
+        ? 'special'
+        : pipeline.schema,
   };
 }
 
