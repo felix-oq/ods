@@ -27,7 +27,7 @@ export interface PipelineConfigDTO {
   datasourceId: number;
   transformation: TransformationConfig;
   metadata: MetadataDTO;
-  schema?: Record<string, unknown>; // Fix @typescript-eslint/ban-types for object type
+  schema?: Record<string, string>; // Fix @typescript-eslint/ban-types for object type
 }
 
 export interface MetadataDTO {
@@ -101,6 +101,21 @@ export class PipelineConfigDTOValidator {
         this.errors.push("'metadata.description' property is missing");
       } else if (!validators.isString(pipelineConfig.metadata.description)) {
         this.errors.push("'metadata.description' property must be a string");
+      }
+    }
+
+    if (validators.hasProperty(pipelineConfig, 'schema')) {
+      if (!validators.isObject(pipelineConfig.schema)) {
+        this.errors.push("'schema' property must be an object");
+      } else {
+        for (const schemaValue of Object.values(pipelineConfig.schema)) {
+          if (!validators.isString(schemaValue)) {
+            this.errors.push(
+              "All values of 'schema' property must be a string",
+            );
+            break;
+          }
+        }
       }
     }
 
