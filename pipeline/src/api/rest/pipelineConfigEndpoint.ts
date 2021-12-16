@@ -107,7 +107,7 @@ export class PipelineConfigEndpoint {
     req: express.Request,
     res: express.Response,
   ): Promise<void> => {
-    const datasourceIdParameter = this.getQueryParameter(req, 'datasourceId');
+    const datasourceIdParameter = this.getQueryParameter(req, 'dataId');
     // Check if datasourceId query parameter was given
     if (!datasourceIdParameter) {
       // No datasourceId parameter given -> return all
