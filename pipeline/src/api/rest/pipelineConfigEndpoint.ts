@@ -100,6 +100,12 @@ export class PipelineConfigEndpoint {
       res.status(404).send('Config not found');
       return;
     }
+    if (typeof config.metadata.author === 'string') {
+      const names = config.metadata.author.split('_');
+      if (names.length > 1) {
+        config.metadata.author = names;
+      }
+    }
     res.status(200).json(config);
   };
 
