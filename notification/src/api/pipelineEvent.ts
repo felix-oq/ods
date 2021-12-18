@@ -5,6 +5,7 @@ export interface PipelineSuccessEvent {
   pipelineName: string;
   data: Record<string, unknown>;
   schema?: Record<string, unknown>;
+  description?: string;
 }
 
 /**

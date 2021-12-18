@@ -44,6 +44,12 @@ export class TriggerEventHandler {
       transformationEvent.pipelineId,
     );
 
+    if (transformationEvent.description !== undefined) {
+      console.log(
+        `Received transformation event with description "${transformationEvent.description}"`,
+      );
+    }
+
     const notificationJobs: Array<Promise<void>> = [];
     for (const config of configs) {
       notificationJobs.push(
