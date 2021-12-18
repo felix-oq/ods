@@ -85,5 +85,22 @@ messagePactWith(options, (messagePact) => {
           ),
         );
     });
+
+    it('handles a success event with description', async () => {
+      await messagePact
+        .given('any state')
+        .expectsToReceive('a success event with description')
+        .withContent(
+          Matchers.like({
+            ...examplePipelineSuccessEventWithoutSchema,
+            description: 'some description',
+          }),
+        )
+        .verify(
+          asynchronousBodyHandler(
+            async (body) => await triggerEventHandler.handleEvent(body),
+          ),
+        );
+    });
   });
 });
