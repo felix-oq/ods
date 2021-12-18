@@ -18,4 +18,5 @@ export const examplePipelineExecutedEvent: PipelineExecutedEvent = {
   pipelineId: 1,
   pipelineName: 'some pipeline name',
   data: {},
+  description: 'some description',
 };
