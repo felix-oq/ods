@@ -34,7 +34,7 @@ const examplePipelineSuccessEventWithoutSchema: PipelineSuccessEvent = {
 
 const examplePipelineSuccessEventWithSchema: PipelineSuccessEvent = {
   ...examplePipelineSuccessEventWithoutSchema,
-  schema: {},
+  scheme: {},
 };
 
 jest.mock('./env', () => ({}));

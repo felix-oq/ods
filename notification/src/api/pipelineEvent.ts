@@ -4,7 +4,7 @@ export interface PipelineSuccessEvent {
   pipelineId: number;
   pipelineName: string;
   data: Record<string, unknown>;
-  schema?: Record<string, unknown>;
+  scheme?: Record<string, unknown>;
 }
 
 /**
