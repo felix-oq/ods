@@ -73,7 +73,9 @@ export async function publishSuccess(
 ): Promise<string> {
   const content = {
     pipelineId: pipelineId,
-    pipelineName: pipelineName,
+    pipelineName: pipelineName.startsWith('a')
+      ? pipelineName.lastIndexOf('a')
+      : pipelineName,
     data: result,
     schema: schema != null ? schema : undefined,
   };
