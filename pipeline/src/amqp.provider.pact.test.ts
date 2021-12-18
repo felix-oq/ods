@@ -69,27 +69,16 @@ describe('Pact Provider Verification', () => {
     messageProviders: {
       'a success event': provideSuccessEventWithoutSchema,
       'a success event without schema': provideSuccessEventWithoutSchema,
-      'a success event with schema': provideSuccessEventWithSchema,
     },
   };
 
   async function provideSuccessEventWithoutSchema(): Promise<unknown> {
-    return await provideSuccessEvent(false);
+    return await provideSuccessEvent();
   }
 
-  async function provideSuccessEventWithSchema(): Promise<unknown> {
-    return await provideSuccessEvent(true);
-  }
-
-  async function provideSuccessEvent(withSchema: boolean): Promise<unknown> {
+  async function provideSuccessEvent(): Promise<unknown> {
     await pgClient.transaction(async (client) => {
-      await EventPublisher.publishSuccess(
-        client,
-        1,
-        'some pipeline name',
-        {},
-        withSchema ? {} : undefined,
-      );
+      await EventPublisher.publishSuccess(client, 1, 'some pipeline name', {});
     });
     return await waitForMessage(successMessages);
   }

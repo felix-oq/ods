@@ -69,13 +69,11 @@ export async function publishSuccess(
   pipelineId: number,
   pipelineName: string,
   result: unknown,
-  schema?: Record<string, unknown>, // Fix @typescript-eslint/ban-types for object type
 ): Promise<string> {
   const content = {
     pipelineId: pipelineId,
     pipelineName: pipelineName,
     data: result,
-    schema: schema != null ? schema : undefined,
   };
   return await insertEvent(
     client,
