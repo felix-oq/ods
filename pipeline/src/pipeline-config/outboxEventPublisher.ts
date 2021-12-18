@@ -75,7 +75,13 @@ export async function publishSuccess(
     pipelineId: pipelineId,
     pipelineName: pipelineName,
     data: result,
-    schema: schema != null ? schema : undefined,
+    schema:
+      // eslint-disable-next-line no-nested-ternary
+      schema != null
+        ? schema.special !== undefined
+          ? 'special schema'
+          : schema
+        : undefined,
   };
   return await insertEvent(
     client,
