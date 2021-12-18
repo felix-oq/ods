@@ -4,7 +4,7 @@ export interface PipelineSuccessEvent {
   pipelineId: number;
   pipelineName: string;
   data: Record<string, unknown>;
-  schema?: Record<string, unknown>;
+  schema?: Record<string, string>;
 }
 
 /**
@@ -16,8 +16,20 @@ export interface PipelineSuccessEvent {
 export function isValidPipelineSuccessEvent(
   event: unknown,
 ): event is PipelineSuccessEvent {
+  if (!validators.isObject(event)) {
+    return false;
+  }
+  if (
+    validators.hasProperty(event, 'schema') &&
+    validators.isObject(event.schema)
+  ) {
+    for (const [, value] of Object.entries(event.schema)) {
+      if (!validators.isString(value)) {
+        return false;
+      }
+    }
+  }
   return (
-    validators.isObject(event) &&
     validators.hasProperty(event, 'pipelineId') &&
     validators.hasProperty(event, 'pipelineName') &&
     validators.hasProperty(event, 'data')
