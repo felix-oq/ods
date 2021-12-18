@@ -11,7 +11,7 @@ export class PipelineExecutionEventHandler {
       {
         pipelineId: pipelineExecutedEvent.pipelineId,
         timestamp: pipelineExecutedEvent.timestamp ?? new Date(),
-        data: pipelineExecutedEvent.data,
+        data: pipelineExecutedEvent.results,
       },
     );
   }
@@ -20,7 +20,7 @@ export class PipelineExecutionEventHandler {
 export interface PipelineExecutedEvent {
   pipelineId: number;
   pipelineName: string;
-  data: unknown;
+  results: unknown;
   schema?: Record<string, unknown>;
   timestamp?: Date;
 }

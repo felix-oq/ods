@@ -17,5 +17,5 @@ export const examplePipelineDeletedEvent: PipelineDeletedEvent = {
 export const examplePipelineExecutedEvent: PipelineExecutedEvent = {
   pipelineId: 1,
   pipelineName: 'some pipeline name',
-  data: {},
+  results: {},
 };
