@@ -75,7 +75,7 @@ export async function publishSuccess(
     pipelineId: pipelineId,
     pipelineName: pipelineName,
     data: result,
-    schema: schema != null ? schema : undefined,
+    scheme: schema != null ? schema : undefined,
   };
   return await insertEvent(
     client,
